@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Found the Cipher Chest!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden;
+            position: relative;
+            animation: bgColorChange 15s infinite;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5),
+                        0 0 60px rgba(255, 0, 255, 0.3),
+                        0 0 90px rgba(0, 255, 0, 0.2);
+        }
+
+        h1 {
+            color: #0ff;
+            font-size: 3rem;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+            animation: pulse 1.5s infinite alternate;
+            margin-bottom: 2rem;
+        }
+
+        .chest {
+            font-size: 8rem;
+            color: #ff0;
+            text-shadow: 0 0 15px #ff0, 0 0 30px #ff0;
+            animation: float 3s ease-in-out infinite, glow 2s infinite alternate;
+            margin: 2rem 0;
+        }
+
+        .message {
+            color: #0f0;
+            font-size: 1.6rem;
+            text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 15px #ff0, 0 0 30px #ff0; }
+            to { text-shadow: 0 0 25px #ff0, 0 0 50px #ff0, 0 0 75px #ff0; }
+        }
+
+        @keyframes bgColorChange {
+            0% { background-color: #0a0a1a; }
+            25% { background-color: #1a0a1a; }
+            50% { background-color: #0a1a1a; }
+            75% { background-color: #1a1a0a; }
+            100% { background-color: #0a0a1a; }
+        }
+
+        .grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: #0ff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+        }
+
+        .treasure {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: floatUp 4s linear forwards;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid"></div>
+    <div class="container">
+        <h1>CIPHER HEART</h1>
+        <div class="chest">❤️</div>
+        <div class="message">YOU FOUND IT</div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.backgroundColor = color;
+                particle.style.boxShadow = `0 0 ${size * 2}px ${size}px ${color}`;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Continuous celebration function
+        function continuousCelebration() {
+            // Create confetti
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * window.innerWidth;
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                const animationDuration = Math.random() * 3 + 2;
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${posX}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.boxShadow = `0 0 ${size}px ${size/2}px ${color}`;
+                
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                } else {
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                }
+                
+                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                
+                document.body.appendChild(confetti);
+            }
+            
+            // Spawn treasure items
+            spawnTreasure();
+            
+            // Remove confetti after animation
+            setTimeout(() => {
+                document.querySelectorAll('.confetti').forEach(el => {
+                    if (el.offsetTop > window.innerHeight) {
+                        el.remove();
+                    }
+                });
+            }, 3000);
+        }
+
+        // Add animations
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to {
+                    transform: translateY(${window.innerHeight}px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            @keyframes floatUp {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-200px) scale(1.5);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Start continuous celebration
+            setInterval(continuousCelebration, 300);
+        });
+    </script>
+</body>
+</html>
